@@ -1,0 +1,189 @@
+/* IndiaMap.css */
+
+.india-map-container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1rem;
+    text-align: center; /* Center the legend if it wraps */
+}
+
+/* Wrapper for the image and markers for proper positioning context */
+.map-image-wrapper {
+    position: relative; /* This is crucial for absolute positioning of markers */
+    width: 100%;
+    max-width: 700px; /* Adjust based on your image's optimal width */
+    margin: 0 auto;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
+    box-shadow: 0 8px 30px rgba(18, 24, 33, 0.06);
+    overflow: hidden; /* Ensures shadows/markers don't spill */
+    padding: 18px; /* Padding inside the box, around the image */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.india-map-background-image {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below image */
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.05)); /* Subtle shadow for image if desired */
+    /* You can apply a slight filter like sepia(0.1) or grayscale(0.1) if the black outline is too stark */
+}
+
+/* City marker container - this is the interactive area for each city */
+.city-marker-container {
+    position: absolute;
+    transform: translate(-50%, -50%); /* Centers the marker element on its coordinates */
+    cursor: pointer;
+    /* Custom property for marker color */
+    --marker-color: #667eea; /* Default color if not overridden by inline style */
+    z-index: 10; /* Ensure markers are above the map */
+}
+
+/* Pulse element behind marker */
+.city-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px; /* r * 2 of initial pulse */
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--marker-color);
+    opacity: 0.12;
+    transition: all 0.25s ease;
+    z-index: 1;
+}
+
+/* increase the pulse animation when active */
+.city-marker-container:hover .city-pulse,
+.city-marker-container:focus .city-pulse,
+.pulse-active {
+    width: 68px; /* r * 2 of hovered pulse */
+    height: 68px;
+    opacity: 0.20;
+    animation: pulse 1.8s infinite;
+}
+
+/* pulse keyframes */
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.85);
+        opacity: 0.22;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.06);
+        opacity: 0.08;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.85);
+        opacity: 0.22;
+    }
+}
+
+/* Actual city marker dot */
+.city-marker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px; /* r * 2 of initial marker */
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--marker-color);
+    border: 2px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    transition: all 0.18s ease;
+    z-index: 2;
+}
+
+.city-marker-container:hover .city-marker,
+.city-marker-container:focus .city-marker {
+    width: 28px; /* r * 2 of hovered marker */
+    height: 28px;
+    border-width: 3px;
+}
+
+/* City Label */
+.city-label {
+    position: absolute;
+    bottom: 100%; /* Position above the marker */
+    left: 50%;
+    transform: translate(-50%, -10px); /* Adjust vertical position */
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 6px 12px;
+    white-space: nowrap;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #222;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    pointer-events: none; /* Allows clicks/hovers to pass through to the marker */
+    z-index: 15; /* Ensure label is above everything */
+}
+
+
+/* Legend styles remain mostly the same */
+.city-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.25rem;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(18, 24, 33, 0.03);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    align-items: center;
+}
+
+.legend-item:hover,
+.legend-item.active {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(18, 24, 33, 0.06);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.legend-text {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #222;
+}
+
+/* Accessibility & small screens */
+.legend-item:focus {
+    outline: 3px solid rgba(102, 126, 234, 0.18);
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .map-image-wrapper {
+        padding: 12px;
+    }
+    .legend-text {
+        font-size: 0.82rem;
+    }
+    .legend-item {
+        padding: 0.35rem 0.6rem;
+    }
+    .city-label {
+        font-size: 0.7em;
+        padding: 4px 8px;
+    }
+}
